@@ -57,8 +57,3 @@ print ("<p>Thank you for contacting me, <strong>{$_POST['name']}</strong>!</p>\n
 <?php
 $this->load->view($this->config->item('theme') . 'footer');
 ?>
-
-
-
-
-<?php $this->load->view($this->config->item('theme').'footer'); ?>
