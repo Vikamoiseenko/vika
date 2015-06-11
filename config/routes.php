@@ -62,11 +62,13 @@ $route['customer'] = 'customer';
 $route['customers'] = 'customer';
 $route['startups'] = 'startups';
 $route['profile_form'] = 'profile_form';
-$route['contact'] = 'comtact';
-$route['contact'] = 'contact';
 
-$route['botdetect/captcha_handler/index'] = 'botdetect/captcha_handler/index';
-$route['botdetect/captcha_resource/get/(:any)'] = 'botdetect/captcha_resource/get/$1';
+
+$route['contact/create'] = 'contact/create';
+$route['contact/(:any)'] = 'contact/view/$1';
+$route['contact'] = 'contact';
+$route['(:any)'] = 'pages/view/$1';
+$route['default_controller'] = 'pages/view';
 
 //bootswatch example route
 $route['example'] = 'customer/example';

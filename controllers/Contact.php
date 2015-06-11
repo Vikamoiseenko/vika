@@ -5,43 +5,45 @@ class Contact extends CI_Controller {
     public function __construct()
     {//everything here is global to all methods in the controller
          parent::__construct();
+         $this->load->model('contact_model');
          $this->config->set_item('banner','Global Startup Banner');
          $this->config->set_item("banner-img", "img/Startup-logo.png");
     }#end constructor()
 
 	public function index()
-	{$this->load->helper('form');
+	{     $this->load->helper('form');
         $this->load->library('form_validation');
 
-        //$data['title'] = 'Create a news item';
+        $data['name'] = 'Create a new contact';
+        $data['contact'] = $this->contact_model->get_emails();;
 
         $this->form_validation->set_rules('title', 'Title', 'required');
         $this->form_validation->set_rules('text', 'text', 'required');
 
         if ($this->form_validation->run() === FALSE)
         {//no data yet, show form!
-            $this->load->view('contact/index');
+            $this->load->view('contact/index', $data);
 
         }
         else
         {//process data, send email!
-            $this->contact_model->send_email();
-            $this->load->view('contact/success');
+          //  $this->contact_model->send_email();
+            //$this->load->view('contact/success');
         }
     }
-    public function view($slug = NULL)
+    public function view($email = NULL)
     {
-            $data['name'] = $this->news_model->get_emails($slug);
-            if (empty($data['name']))
+            $data['contact_item'] = $this->contact_model->get_emails($email);
+            if (empty($data['contact_item']))
     {
             show_404();
     }
 
-    $data['name'] = $data['name']['name'];
+    $data['name'] = $data['contact_item']['name'];
 
-//    $this->load->view('templates/header', $data);
+    $this->load->view('templates/header', $data);
     $this->load->view('contact/view', $data);
-  //  $this->load->view('templates/footer');
+    $this->load->view('templates/footer');
 }#end view();
 
     public function create()
@@ -49,10 +51,11 @@ class Contact extends CI_Controller {
   $this->load->helper('form');
   $this->load->library('form_validation');
 
-  $data['title'] = 'Send an email';
+  $data['name'] = 'Create new email';
 
-  $this->form_validation->set_rules('title', 'Title', 'required');
-  $this->form_validation->set_rules('text', 'text', 'required');
+  $this->form_validation->set_rules('name', 'Name', 'required');
+  $this->form_validation->set_rules('email', 'email', 'required');
+  $this->form_validation->set_rules('subject', 'Subject', 'required');
 
   if ($this->form_validation->run() === FALSE)
   {

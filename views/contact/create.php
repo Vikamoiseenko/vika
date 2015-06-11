@@ -7,15 +7,21 @@ $this->load->view($this->config->item('theme') . 'header');
 
 <?php echo validation_errors(); ?>
 
-<?php echo form_open('news/create') ?>
+<?php echo form_open('contact/create') ?>
 
-    <label for="title">Title</label>
-    <input type="input" name="title" /><br />
-
-    <label for="text">Text</label>
-    <textarea name="text"></textarea><br />
-
-    <input type="submit" name="submit" value="Create news item" />
+<label for="name">Name:</label>
+<input name="name" type="text" required="required">
+<label for="email">Email:</label>
+<input name="email" type="email" required="required">
+<label for="subject">Subject:</label>
+<select name="subject">
+<option value="General Inquiry" selected="selected">General Inquiry</option>
+<option value="Specific Inquiry">Specific Inquiry</option>
+<option value="Stoopid Inquiry">Stoopid Inquiry</option>
+</select>
+<label for="message">Message:</label>
+<textarea name="message" cols="40" rows="5" required></textarea>
+<input name="submit" type="submit" value="Submit Message" />
 
 </form>
 

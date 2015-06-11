@@ -5,14 +5,14 @@ class Contact_model extends CI_Model {
                 $this->load->database();
         }
 
-		public function get_emails($slug = FALSE)
+		public function get_emails($email = FALSE)
 		{
-			if ($slug === FALSE)
+			if ($email === FALSE)
 			{
-					$query = $this->db->get('name');
+					$query = $this->db->get('contact');
 					return $query->result_array();
 			}
-			$query = $this->db->get_where('name', array('slug' => $slug));
+			$query = $this->db->get_where('contact', array('email' => $email));
 			return $query->row_array();
 		}
 
@@ -20,12 +20,12 @@ class Contact_model extends CI_Model {
     {
     $this->load->helper('url');
 
-    $slug = url_title($this->input->post('title'), 'dash', TRUE);
+    $email = url_title($this->input->post('name'), 'dash', TRUE);
 
     $data = array(
-        'title' => $this->input->post('title'),
-        'slug' => $slug,
-        'text' => $this->input->post('email')
+        'name' => $this->input->post('name'),
+        'email' => $email,
+        'subject' => $this->input->post('subject')
     );
 
     return $this->db->insert('contact', $data);
