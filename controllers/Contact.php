@@ -17,8 +17,9 @@ class Contact extends CI_Controller {
         $data['name'] = 'Create a new contact';
         $data['contact'] = $this->contact_model->get_emails();;
 
-        $this->form_validation->set_rules('title', 'Title', 'required');
-        $this->form_validation->set_rules('text', 'text', 'required');
+        $this->form_validation->set_rules('name', 'Name', 'required');
+        $this->form_validation->set_rules('email', 'email', 'required');
+        $this->form_validation->set_rules('message', 'message', 'required');
 
         if ($this->form_validation->run() === FALSE)
         {//no data yet, show form!
@@ -43,7 +44,7 @@ class Contact extends CI_Controller {
 
     $this->load->view('templates/header', $data);
     $this->load->view('contact/view', $data);
-    $this->load->view('templates/footer');
+    $this->load->view('templates/footer', $data);
 }#end view();
 
     public function create()
@@ -55,13 +56,13 @@ class Contact extends CI_Controller {
 
   $this->form_validation->set_rules('name', 'Name', 'required');
   $this->form_validation->set_rules('email', 'email', 'required');
-  $this->form_validation->set_rules('subject', 'Subject', 'required');
+  $this->form_validation->set_rules('message', 'message', 'required');
 
   if ($this->form_validation->run() === FALSE)
   {
       $this->load->view('templates/header', $data);
-      $this->load->view('contact/create');
-      $this->load->view('templates/footer');
+      $this->load->view('contact/create', $data);
+      $this->load->view('templates/footer', $data);
 
   }
   else

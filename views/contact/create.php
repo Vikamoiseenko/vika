@@ -2,17 +2,18 @@
 //$this->load->view('themes/bootswatch/header');
 $this->load->view($this->config->item('theme') . 'header');
 ?>
-
-<h2><?php echo $title ?></h2>
+<article id="text">
+<section class="contact">
+<h2>Contact Us</h2>
 
 <?php echo validation_errors(); ?>
 
 <?php echo form_open('contact/create') ?>
 
 <label for="name">Name:</label>
-<input name="name" type="text" required="required">
+<input name="name" type="text">
 <label for="email">Email:</label>
-<input name="email" type="email" required="required">
+<input name="email" type="email">
 <label for="subject">Subject:</label>
 <select name="subject">
 <option value="General Inquiry" selected="selected">General Inquiry</option>
