@@ -16,7 +16,7 @@ class Contact_model extends CI_Model {
 			return $query->row_array();
 		}
 
-    public function set_email()
+    public function set_emails()
     {
     $this->load->helper('url');
 

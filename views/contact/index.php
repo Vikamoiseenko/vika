@@ -2,7 +2,6 @@
 //views/contact/index.php
 $this->load->view($this->config->item('theme') . 'header');
 ?>
-<h2><?php echo $title ?></h2>
 
 <?php foreach ($contact as $contact_item): ?>
 
@@ -10,7 +9,7 @@ $this->load->view($this->config->item('theme') . 'header');
         <div class="main">
                 <?php echo $contact_item['message'] ?>
         </div>
-        <p><a href="<?php echo $contact_item['email'] ?>">View email</a></p>
+        <p><a href="<?php echo ('contact/'.$contact_item['email']); ?>">View email</a></p>
 <?php endforeach ?>
 
 <p><a href="http://mykhabarovsk.com/repo/contact/create"</a>Send new email</p>

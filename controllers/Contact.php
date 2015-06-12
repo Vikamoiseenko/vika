@@ -14,8 +14,8 @@ class Contact extends CI_Controller {
 	{     $this->load->helper('form');
         $this->load->library('form_validation');
 
-        $data['name'] = 'Create a new contact';
-        $data['contact'] = $this->contact_model->get_emails();;
+        $data['name'] = 'Contact';
+        $data['contact'] = $this->contact_model->get_emails();
 
         $this->form_validation->set_rules('name', 'Name', 'required');
         $this->form_validation->set_rules('email', 'email', 'required');
@@ -38,38 +38,80 @@ class Contact extends CI_Controller {
             if (empty($data['contact_item']))
     {
             show_404();
-    }
+    } else{
 
     $data['name'] = $data['contact_item']['name'];
 
     $this->load->view('templates/header', $data);
     $this->load->view('contact/view', $data);
     $this->load->view('templates/footer', $data);
+  }
 }#end view();
 
-    public function create()
-    {
-  $this->load->helper('form');
-  $this->load->library('form_validation');
+        public function create()
+        {
+      $this->load->helper('form');
+      $this->load->library('form_validation');
 
-  $data['name'] = 'Create new email';
+      $data['name'] = 'Create new email';
 
-  $this->form_validation->set_rules('name', 'Name', 'required');
-  $this->form_validation->set_rules('email', 'email', 'required');
-  $this->form_validation->set_rules('message', 'message', 'required');
+      $this->form_validation->set_rules('name', 'Name', 'required');
+      $this->form_validation->set_rules('email', 'email', 'required');
+      $this->form_validation->set_rules('message', 'message', 'required');
 
-  if ($this->form_validation->run() === FALSE)
-  {
-      $this->load->view('templates/header', $data);
-      $this->load->view('contact/create', $data);
-      $this->load->view('templates/footer', $data);
+      if ($this->form_validation->run() === FALSE)
+      {
+          $this->load->view('templates/header', $data);
+          $this->load->view('contact/create', $data);
+          $this->load->view('templates/footer', $data);
+      }
+      else
+      {
+          $this->contact_model->set_emails();
 
-  }
-  else
-  {
-      $this->contact_model->set_email();
-      $this->load->view('contact/success');
-  }
-}
+          //get the form data
+            $name = $this->input->post('name');
+            $email = $this->input->post('email');
+            $subject = $this->input->post('subject');
+            $message = $this->input->post('message');
 
+            //set to_email id to which you want to receive mails
+            $to_email = 'example@gmail.com';
+            $this->load->helper('url');
+            //configure email settings
+            $config['protocol'] = 'smtp';
+            $config['smtp_host'] = 'ssl://smtp.gmail.com';
+            $config['smtp_port'] = '465';
+            $config['smtp_user'] = 'example@gmail.com';
+            $config['smtp_pass'] = 'password';
+            $config['mailtype'] = 'html';
+            $config['charset'] = 'iso-8859-1';
+            $config['wordwrap'] = TRUE;
+            $config['newline'] = "\r\n"; //use double quotes
+            $this->load->library('email', $config);
+            $this->email->initialize($config);
+
+            //send mail
+            $this->email->from($to_email, $name);
+            $this->email->to($email);
+            $this->email->subject($subject);
+            $this->email->message($message);
+            if ($this->email->send())
+            {
+                // mail sent
+                $this->load->view('contact/success');
+              //  redirect('contact/');
+            }
+            else
+            {
+                //error
+              //  $this->session->set_flashdata('msg','<div class="alert alert-danger text-center">There is error in sending mail! Please try again later</div>');
+                redirect('contact/');
+            }
+
+          }
+
+
+          //$this->load->view('contact/success');
+      }
   }
